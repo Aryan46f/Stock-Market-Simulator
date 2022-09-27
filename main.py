@@ -16,8 +16,10 @@ title.goto(-100, -100)
 title.write("1- GME, 2- AMC, 3-BBW", font=('Roboto', 12, 'normal'))
 
 # takes user input as a variable
-stock = input("Which company's stocks would you like to buy? 1- GME, 2- AMC, 3-BBW")
-stock = int(stock)
+stock = 0
+while(stock < 1 or stock > 3 ):
+  stock = input("Which company's stocks would you like to buy? 1- GME, 2- AMC, 3-BBW")
+  stock = int(stock)
 
 # decides between which logo to display
 if(stock == 1):
@@ -40,6 +42,7 @@ drawer.pensize(5)
 drawer.hideturtle()
 
 # set up turtle for border
+title.clear()
 drawer.penup()
 drawer.goto(-250,200)
 drawer.pendown()
@@ -54,6 +57,7 @@ drawer.setheading(0)
 drawer.forward(500)
 
 # complete fill of graph background
+drawer.speed(0)
 drawer.pencolor("lightgray")
 drawer.setheading(90)
 drawer.forward(300)
@@ -63,16 +67,79 @@ drawer.end_fill()
 drawer.setheading(0)
 drawer.pencolor("black")
 
-
-# place buy button 
+# graph lines
 drawer.penup()
-drawer.goto(0, -270)
+drawer.pencolor("lightgray")
+drawer.pensize(1)
+drawer.setheading(90)
+drawer.goto(-230, -100)
+for vert in range(10):
+  drawer.pendown()
+  drawer.forward(295)
+  drawer.penup()
+  drawer.goto(drawer.xcor()+50, -100)
+drawer.goto(-250, 195)
+drawer.setheading(0)
+for horiz in range(6):
+  drawer.pendown()
+  drawer.forward(500)
+  drawer.penup()
+  drawer.goto(-250, drawer.ycor()-50)
+# place buy button 
+drawer.setheading(0)
+drawer.penup()
+drawer.goto(0, -250)
 drawer.fillcolor("red")
 drawer.begin_fill()
 drawer.circle(50)
 drawer.end_fill()
-drawer.goto(-20, -235)
+drawer.goto(-20, -215)
+drawer.pencolor("black")
 drawer.write("BUY", font=('Arial', 15, 'normal'))
+
+# draw wealth bar
+bar = trtl.Turtle("classic")
+bar.hideturtle()
+bar.penup()
+bar.goto(-25, -350)
+bar.write("MONEY", font=('Arial', 10, 'normal'))
+bar.pencolor("green")
+bar.goto(-250, -325)
+bar.pendown()
+bar.fillcolor("green")
+bar.begin_fill()
+bar.forward(500)
+bar.setheading(90)
+bar.forward(25)
+bar.setheading(180)
+bar.forward(500)
+bar.setheading(270)
+bar.forward(25)
+bar.end_fill()
+bar.penup()
+bar.goto(250, -325)
+bar.setheading(180)
+
+def spend():
+  bar.pencolor("red")
+  while(bar.ycor() > -324 and bar.ycor() < -276):
+    bar.pendown()
+  if(bar.ycor() < -324 and bar.ycor() > -276):
+    bar.penup()
+  bar.speed(0)
+  bar.fillcolor("red")
+  bar.setheading(180)
+  bar.begin_fill()
+  bar.forward(10)
+  bar.setheading(90)
+  bar.forward(25)
+  bar.setheading(0)
+  bar.forward(10)
+  bar.setheading(270)
+  bar.forward(25)
+  bar.end_fill()
+  bar.goto(bar.xcor()-10, -325)
+
 
 # create turtle for line graph
 graph = trtl.Turtle("classic") 
@@ -87,8 +154,12 @@ starty = ypos
 graph.goto(xpos, ypos)
 graph.showturtle()
 
+spending = False
+
+
 # up method for graph to go up a random amount
 def up():
+  graph.speed(0)
   graph.pencolor("green")
   graph.goto(graph.xcor() + 5, graph.ycor() + random.randint(1,10))
   time.sleep(0.1)
@@ -108,7 +179,7 @@ failed = False
 def click(x, y):
   for n in range(2):
     up()
-
+  spend()
 # while graph is within bounds, always go down 
 while(graph.xcor() < 250 and graph.ycor() > -95 and graph.ycor() < 200):
   # goes down automatically
@@ -129,12 +200,123 @@ graph.penup()
 # calculate profit (end - start)
 profit = graph.ycor() - starty
 
+# set up and procedures for faces
+face = trtl.Turtle()
+face.hideturtle()
+face.pensize(5)
+
+def happy():
+  face.penup()
+  face.speed(0)
+  face.goto(0, -250)
+  face.pendown()
+  face.pencolor("yellow")
+  face.fillcolor("yellow")
+  face.begin_fill()
+  face.circle(50)
+  face.end_fill()
+
+  face.penup()
+  face.goto(0, -230)
+  face.pencolor("black")
+  face.circle(25, 275)
+  face.pendown()
+  face.circle(25, 170)
+
+  face.penup()
+  face.goto(-10, -190)
+  face.fillcolor("black")
+  face.begin_fill()
+  face.circle(7)
+  face.end_fill()
+
+  face.penup()
+  face.goto(20, -190)
+  face.fillcolor("black")
+  face.begin_fill()
+  face.circle(7)
+  face.end_fill()
+
+
+def sad():
+  face.penup()
+  face.speed(0)
+  face.goto(0, -250)
+  face.pendown()
+  face.pencolor("yellow")
+  face.fillcolor("yellow")
+  face.begin_fill()
+  face.circle(50)
+  face.end_fill()
+
+  face.penup()
+  face.goto(0, -260)
+  face.pencolor("black")
+  face.circle(25, 120)
+  face.pendown()
+  face.circle(25, 120)
+
+  face.penup()
+  face.goto(-20, -190)
+  face.fillcolor("black")
+  face.begin_fill()
+  face.circle(7)
+  face.end_fill()
+
+  face.penup()
+  face.goto(10, -190)
+  face.fillcolor("black")
+  face.begin_fill()
+  face.circle(7)
+  face.end_fill()
+
+
+def angry():
+  face.penup()
+  face.speed(0)
+  face.goto(0, -250)
+  face.pendown()
+  face.pencolor("red")
+  face.fillcolor("red")
+  face.begin_fill()
+  face.circle(50)
+  face.end_fill()
+
+  face.penup()
+  face.goto(0, -260)
+  face.pencolor("white")
+  face.circle(25, 120)
+  face.pendown()
+  face.circle(25, 120)
+
+  face.penup()
+  face.goto(-20, -190)
+  face.fillcolor("white")
+  face.begin_fill()
+  face.circle(7)
+  face.end_fill()
+
+  face.penup()
+  face.goto(10, -190)
+  face.fillcolor("white")
+  face.begin_fill()
+  face.circle(7)
+  face.end_fill()
+
+
 # determine end message based on if loss/profit
-if(profit > 0):
+
+# ending profit report 
+if(profit > 0 and failed != True):
   message = "You earned"
+  happy()
 elif(profit < 0):
   message = "You lost"
   profit = profit*-1
+  sad()
+else:
+  message = "You earned"
+  angry()
 
 # write end message
 drawer.goto(-75, 300)
