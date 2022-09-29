@@ -6,7 +6,7 @@ import time
 wn = trtl.Screen()
 trtl.bgcolor("lightgray")
 
-# title question text 
+# write title question text 
 title = trtl.Turtle()
 title.hideturtle()
 title.penup()
@@ -15,7 +15,7 @@ title.write("Which company's stocks would you like to buy?", font=('Roboto', 12,
 title.goto(-100, -100)
 title.write("1- GME, 2- AMC, 3-BBW", font=('Roboto', 12, 'normal'))
 
-# takes user input as a variable
+# takes user input for company
 stock = 0
 while(stock < 1 or stock > 3 ):
   stock = input("Which company's stocks would you like to buy? 1- GME, 2- AMC, 3-BBW")
@@ -67,7 +67,7 @@ drawer.end_fill()
 drawer.setheading(0)
 drawer.pencolor("black")
 
-# graph lines
+# graph grid lines
 drawer.penup()
 drawer.pencolor("lightgray")
 drawer.pensize(1)
@@ -85,6 +85,7 @@ for horiz in range(6):
   drawer.forward(500)
   drawer.penup()
   drawer.goto(-250, drawer.ycor()-50)
+
 # place buy button 
 drawer.setheading(0)
 drawer.penup()
@@ -120,6 +121,7 @@ bar.penup()
 bar.goto(250, -325)
 bar.setheading(180)
 
+# procedure to increase red area of wealth bar 
 def spend():
   bar.pencolor("red")
   while(bar.ycor() > -324 and bar.ycor() < -276):
@@ -154,7 +156,6 @@ starty = ypos
 graph.goto(xpos, ypos)
 graph.showturtle()
 
-spending = False
 
 
 # up method for graph to go up a random amount
@@ -175,11 +176,12 @@ graph.pendown()
 # boolean for case that graph overshoots and fails 
 failed = False
 
-# define click method when buy button is clicked, go up 2 times
+# define click method when buy button is clicked, go up 2 times, decrease wealth
 def click(x, y):
   for n in range(2):
     up()
   spend()
+  
 # while graph is within bounds, always go down 
 while(graph.xcor() < 250 and graph.ycor() > -95 and graph.ycor() < 200):
   # goes down automatically
@@ -200,11 +202,12 @@ graph.penup()
 # calculate profit (end - start)
 profit = graph.ycor() - starty
 
-# set up and procedures for faces
+# set up ending face turtle
 face = trtl.Turtle()
 face.hideturtle()
 face.pensize(5)
 
+# end face procedures
 def happy():
   face.penup()
   face.speed(0)
@@ -304,9 +307,7 @@ def angry():
   face.end_fill()
 
 
-# determine end message based on if loss/profit
-
-# ending profit report 
+# determine end message based on if loss/profit, display face
 if(profit > 0 and failed != True):
   message = "You earned"
   happy()
